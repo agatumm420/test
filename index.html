@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agnieszka Tumm</title>
+  </head>
+  <body>
+    <div id="cards"></div>
+  </body>
+</html>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+  }
+  #cards {
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    background-color: white;
+    margin: 7px;
+    border-width: 5px;
+    border-style: solid;
+  }
+  .active {
+    background-color: gray;
+  }
+</style>
+<script defer>
+  const students = [
+    {
+      name: "Martin",
+      lastName: "Lant",
+      marks: [9, 8, null, 7, 5],
+    },
+    {
+      name: "Francesco",
+      lastName: "Portus",
+      marks: [5, 4, 2, 3, 2],
+    },
+    {
+      name: "Bill",
+      lastName: "Merdoc",
+      marks: [10, null, null, null, 10],
+    },
+    {
+      name: "John",
+      lastName: "Entman",
+      marks: [9, 8, 9, 7, 5],
+    },
+  ];
+  const cardsDiv = document.querySelector("#cards");
+  students.forEach((student) => {
+    const { name, lastName, marks } = student;
+    let avgMark = calcAvgMark(marks);
+    let border;
+    if (avgMark < 5) {
+      border = "red";
+    } else if (avgMark > 5) {
+      border = "green";
+    }
+    const studentCard = `
+    <div class="card" style="border-color:${border}">
+      <p>${name} ${lastName}</p>
+      <p>Visited lectures: ${visitedLectures(marks)}</p>
+      <p>Average mark: ${calcAvgMark(marks)}</p>
+    </div> 
+    `;
+    cardsDiv.insertAdjacentHTML("beforeEnd", studentCard);
+  });
+  function visitedLectures(marks) {
+    let count = 0;
+    marks.forEach((mark) => {
+      if (mark !== null) {
+        count++;
+      }
+    });
+    return count;
+  }
+  function calcAvgMark(marks) {
+    let sum = 0;
+    marks.forEach((mark) => {
+      sum += mark;
+    });
+    return sum / marks.length;
+  }
+  let [...cards] = document.querySelectorAll(".card");
+  cards.forEach((card) => {
+    card.addEventListener("click", (e) => {
+      cards.forEach((card) => {
+        if (card.classList.contains("active") && card != e.target) {
+          card.classList.toggle("active");
+        }
+      });
+      card.classList.toggle("active");
+    });
+  });
+</script>
