@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agnieszka Tumm</title>
+  </head>
+  <body>
+    <div id="cards"></div>
+  </body>
+</html>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+  }
+  #cards {
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    background-color: palevioletred;
+    margin: 7px;
+  }
+  .red-border {
+    border: 2px solid red;
+  }
+  .green-border {
+    border: 2px solid green;
+  }
+  .active {
+    background-color: gray;
+  }
+</style>
+<script defer>
+  const students = [
+    {
+      name: "Martin",
+      lastName: "Lant",
+      marks: [9, 8, null, 7, 5],
+    },
+    {
+      name: "Francesco",
+      lastName: "Portus",
+      marks: [5, 4, 2, 3, 2],
+    },
+    {
+      name: "Bill",
+      lastName: "Merdoc",
+      marks: [10, null, null, null, 10],
+    },
+    {
+      name: "John",
+      lastName: "Entman",
+      marks: [9, 8, 9, 7, 5],
+    },
+  ];
+  const cards = document.querySelector("#cards");
+  students.forEach((student) => {
+    const { name, lastName, marks } = student;
+    const isClicked = false;
+    const studentCard = `
+    <div class="card">
+      <p>${name} ${lastName}</p>
+      <p>Visited lectures: ${visitedLectures(marks)}</p>
+      <p class=${addBorder(calcAvgMark(marks))}>Average mark  ${calcAvgMark(
+      marks
+    )}</p>
+    </div> 
+    `;
+    cards.insertAdjacentHTML("beforeEnd", studentCard);
+  });
+  function visitedLectures(marks) {
+    let count = 0;
+    marks.forEach((mark) => {
+      if (mark !== null) {
+        count++;
+      }
+    });
+    return count;
+  }
+  function calcAvgMark(marks) {
+    let sum = 0;
+    marks.forEach((mark) => {
+      sum += mark;
+    });
+    return sum / marks.length;
+  }
+  function addBorder(avg) {
+    if (avg < 5) {
+      return "red-border";
+    }
+    if (avg > 5) {
+      return "green-border";
+    } else {
+      return null;
+    }
+  }
+</script>
